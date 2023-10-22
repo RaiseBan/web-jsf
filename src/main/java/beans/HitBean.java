@@ -41,16 +41,18 @@ public class HitBean implements Serializable {
         System.out.println("y = " + this.y);
         System.out.println("r = " + this.r);
 
-        double numericalX = Double.parseDouble(x);
-        double numericalY = Double.parseDouble(y);
-        double numericalR = Double.parseDouble(r);
+        Double numericalX = validation.validateX(x);
+        Double numericalY = validation.validateY(y);
+        Double numericalR = validation.validateR(r);
 
-        Shots shot = new Shots();
-        shot.setX((float) numericalX);
-        shot.setY((float) numericalY);
-        shot.setR((float) numericalR);
-        shot.setResult(checkArea.hit(numericalX, numericalY, numericalR));
-        dataAO.addShot(shot);
+        if (numericalX != null && numericalY != null && numericalR != null) {
+            Shots shot = new Shots();
+            shot.setX(numericalX.floatValue());
+            shot.setY(numericalY.floatValue());
+            shot.setR(numericalR.floatValue());
+            shot.setResult(checkArea.hit(numericalX, numericalY, numericalR));
+            dataAO.addShot(shot);
+        }
     }
 
 
@@ -112,7 +114,9 @@ public class HitBean implements Serializable {
     }
 
     public String getR() {
-        return r;
+        System.out.println("Print " + this.r);
+        return this.r;
+
     }
 
     public void setR(org.primefaces.event.SlideEndEvent event) {

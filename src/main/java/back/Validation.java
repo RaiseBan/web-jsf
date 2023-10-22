@@ -11,12 +11,11 @@ public class Validation implements IValidation, Serializable {
         try {
             doubleX = Double.parseDouble(x);
             if (doubleX > 2 || doubleX < -2) {
-                throw new IOException();
+                doubleX = null;
             }
-        } catch (Exception exception) {
-            System.out.println("X не введено.");
+        } catch (Exception e){
+            System.out.println("x не прошел валидацию " + doubleX );
         }
-
         return doubleX;
     }
 
@@ -25,8 +24,8 @@ public class Validation implements IValidation, Serializable {
         Double doubleY = null;
         try {
             doubleY = Double.parseDouble(y);
-            if (doubleY > 5 || doubleY < -3) {
-                throw new IOException();
+            if (doubleY > 3 || doubleY < -5) {
+                doubleY = null;
             }
         } catch (Exception exception) {
             System.out.println("Y не валидно");
@@ -44,7 +43,7 @@ public class Validation implements IValidation, Serializable {
         try {
             doubleR = Double.parseDouble(r);
             if (doubleR > 4 || doubleR < 1) {
-                throw new IOException();
+                doubleR = null;
             }
         } catch (Exception exception) {
             System.out.println("R не валидно");
