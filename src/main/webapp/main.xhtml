@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:b="http://bootsfaces.net/ui"
       xmlns:p="http://primefaces.org/ui">
 
 <h:head>
     <title>Lab1Ser</title>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <h:outputScript library="javax.faces" name="jsf.js"/>
-<!--    <h:outputScript library="primefaces" name="jquery/jquery.js" target="head" />-->
+    <h:outputScript library="primefaces" name="jquery/jquery.js"/>
     <h:outputScript library="scripts" name="time.js"/>
+
     <h:outputStylesheet library="styles" name="main.css"/>
     <h:outputStylesheet library="styles" name="header.css"/>
     <h:outputScript library="javax.faces" name="jsf.js"/>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"></link>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"/>
 
 </h:head>
 <f:view transient="true">
-    <h:body>
-        <div class="header">
+    <h:body class="body">
+
+        <div id="header">
             <div class="headCols">
                 <div class="headCol1">
                     <h:form id="buttonBackForm">
@@ -37,75 +38,145 @@
                 </div>
             </div>
         </div>
-        <div class="sendForm">
-            <h:form id="form" name="form" method="post">
+        <div class="main">
+            <div class="div-canvas">
+                <canvas id="canvas" width="600" height="500">
 
-                <div class="params-container">
-                    <div id="choose-x">
 
-                        <script type="application/javascript">
+                </canvas>
 
-                            function handleCheckboxes() {
-                                var checkboxes = document.querySelectorAll("input[type='checkbox']");
-                                var checked = Array.from(checkboxes).some(cb => cb.checked);
-                                checkboxes.forEach(cb => {
-                                    if (!cb.checked) {
-                                        cb.disabled = checked;
-                                    }
-                                });
-                            }
-                        </script>
+            </div>
 
-                        <h:outputLabel id="label-x" for="select-x">X: </h:outputLabel>
-                        <h:panelGrid id="select-x" columns="2">
-                            <ui:repeat value="#{hitBean.sortedCheckboxValues}" var="entry" index="varStatus">
-                                <h:outputText value="#{entry.key}" />
-                                <h:selectBooleanCheckbox value="#{hitBean.currentCheckedValue}" onclick="handleCheckboxes();">
-                                    <f:ajax execute="@this" listener="#{hitBean.updateX(entry.key)}" render="click" />
-                                </h:selectBooleanCheckbox>
-                            </ui:repeat>
-                        </h:panelGrid>
+            <div class="sendForm">
+                <h:form id="form" name="form" method="post">
+
+                    <div class="params-container">
+                        <div id="choose-x">
+
+                            <script type="application/javascript">
+
+                                function handleCheckboxes(key) {
+                                    let checkboxes = document.querySelectorAll("input[type='checkbox']");
+
+                                    let checked = Array.from(checkboxes).some(cb => cb.checked);
+                                    checkboxes.forEach(cb => {
+                                        if (!cb.checked) {
+
+                                            cb.disabled = checked;
+                                        } else {
+                                            checkX(key);
+                                        }
+                                    });
+                                }
+
+                            </script>
+
+                            <h:outputLabel id="label-x" for="select-x">X: </h:outputLabel>
+                            <h:panelGrid id="select-x" columns="2">
+                                <ui:repeat value="#{hitBean.sortedCheckboxValues}" var="entry" index="varStatus">
+                                    <h:outputText value="#{entry.key}"/>
+                                    <h:selectBooleanCheckbox value="#{hitBean.currentCheckedValue}"
+                                                             onclick="handleCheckboxes('#{entry.key}');">
+                                        <f:ajax execute="@this" listener="#{hitBean.updateX(entry.key)}"
+                                                render="click"/>
+                                    </h:selectBooleanCheckbox>
+                                </ui:repeat>
+                            </h:panelGrid>
+
+                        </div>
 
                     </div>
-
-                </div>
-                <div class="params-container">
-                    <div id="choose-y">
-                        <h:outputLabel>Y:
-                            <h:inputText a:placeholder="-5 ... 5" maxlength="6" value="#{hitBean.y}" id="yArg">
+                    <div class="params-container">
+                        <div id="choose-y">
+                            <h:outputLabel>Y:</h:outputLabel>
+                            <h:inputText a:placeholder="-5 ... 5" maxlength="6" value="#{hitBean.y}" id="yArg"
+                                         onchange="checkY()">
                                 <f:ajax execute="@this" render="click"/>
                             </h:inputText>
-                        </h:outputLabel>
-                    </div>
-                </div>
-                <div class="params-container">
-                    <div id="choose-r">
-                        <label id="label-r" for="select-r">Y:  </label>
-                        <h:panelGrid id="select-r" columns="1" style="margin-bottom: 10px">
-                            <p:inputText readonly="true" id="decimal" value="#{hitBean.r}" />
-                            <p:slider for="decimal" minValue="1" maxValue="4" step="0.25">
-                                <p:ajax execute="@this" listener="#{hitBean.setR}" update="decimal click" render="click" />
-                            </p:slider>
-                        </h:panelGrid>
 
+                        </div>
                     </div>
-                </div>
+                    <div class="params-container">
+                        <div id="choose-r">
+                            <label id="label-r" for="select-r">R: </label>
+                            <h:panelGrid id="select-r" columns="1" style="margin-bottom: 10px">
+                                <p:inputText readonly="true" id="decimal" value="#{hitBean.r}"/>
+                                <p:slider for="decimal" minValue="1" maxValue="4" step="0.25" widgetVar="mySliderWidget"
+                                          onchange="handleSliderChange()">
+                                    <p:ajax execute="@this" listener="#{hitBean.setR}" update="decimal click"
+                                            render="click"/>
+                                </p:slider>
+                            </h:panelGrid>
 
-            </h:form>
-            <h:form id="click">
-                <h:outputLabel value="#{hitBean.x}" id="x_click" />
-                <h:outputLabel value="#{hitBean.r}" id="r_click" />
-                <h:outputLabel value="#{hitBean.y}" id="y_click" />
-                <h:commandButton value="Отправить данные" action="#{hitBean.submitClick()}">
-                    <f:ajax execute="@form" render=""/>
-                </h:commandButton>
-            </h:form>
+                        </div>
+                    </div>
+
+                </h:form>
+
+
+                <h:form id="click">
+                    <h:outputLabel value="X: #{hitBean.x}" id="x_click"/>
+                    <h:outputLabel value="Y: #{hitBean.y}" id="y_click"/>
+                    <h:outputLabel value="R: #{hitBean.r}" id="r_click"/>
+                    <h:commandButton type="submit" value="Send" action="#{hitBean.submitClick()}"
+                                     onclick="return validateForm();" styleClass="sendButton">
+                        <f:ajax execute="@form" render="result-table" onevent="handleAddEntryEvent"/>
+                    </h:commandButton>
+                    <!--                    <h:commandButton styleClass="clear-button" value="Clear"/>-->
+                </h:form>
+
+                <h:form id="formReset" name="form" method="post">
+                    <h:commandButton styleClass="clear-button" id="reset_table" value="Reset"
+                                     action="#{hitBean.resetHistory()}" onclick="clearCanvas();">
+                        <f:ajax execute="@form" render="result-table"/>
+                    </h:commandButton>
+                </h:form>
+                <h:form id="jsForm">
+                    <h:commandButton id="myButton" value="Call Bean Method" action="#{hitBean.combinedMethod}"
+                                     styleClass="hidden">
+                        <f:setPropertyActionListener target="#{hitBean.tempX}" value="#{jsBean.x}"/>
+                        <f:setPropertyActionListener target="#{hitBean.tempY}" value="#{jsBean.y}"/>
+                        <f:setPropertyActionListener target="#{hitBean.tempR}" value="#{jsBean.r}"/>
+
+                        <f:ajax execute="@form" render="result-table" onevent="handleAddEntryEvent"/>
+                    </h:commandButton>
+
+                    <!-- Добавьте этот блок для установки значений из JavaScript -->
+
+                    <h:inputHidden id="jsValue1" value="#{jsBean.x}"/>
+                    <h:inputHidden id="jsValue2" value="#{jsBean.y}"/>
+                    <h:inputHidden id="jsValue3" value="#{jsBean.r}"/>
+                </h:form>
+            </div>
+            <div class="table-container">
+                <h:dataTable class="table" id="result-table" value="#{hitBean.getHistory()}" var="response">
+                    <h:column>
+                        <f:facet name="header">X</f:facet>
+                        #{response.x}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Y</f:facet>
+                        #{response.y}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">R</f:facet>
+                        #{response.r}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Result</f:facet>
+                        #{response.result}
+                    </h:column>
+                </h:dataTable>
+            </div>
+
+
+            <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+            <h:outputScript library="scripts" name="validation.js"/>
+            <h:outputScript library="scripts" name="canvas.js"/>
+            <h:outputScript library="scripts" name="clickOnCanvas.js"/>
+            <h:outputScript library="scripts" name="drawNewPoints.js"/>
+            <!--            <h:outputScript library="scripts" name="changeStyles.js"/>-->
         </div>
-
-        <h:outputScript library="scripts" name="canvas.js" />
-        <h:outputScript library="scripts" name="changeStyles.js" />
-        <h:outputScript library="scripts" name="sendData.js" />
-        <h:outputScript library="scripts" name="validation.js" />
     </h:body>
 </f:view>
 </html>

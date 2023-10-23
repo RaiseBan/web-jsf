@@ -14,33 +14,3 @@ buttonsInDiv.forEach(button => {
     });
 });
 
-let clearButton = document.getElementById("clear-button");
-clearButton.onclick = function (){
-    clearSession();
-}
-function clearSession() {
-    $.ajax({
-        url: 'controller', // Замените на реальный путь к вашему ControllerServlet
-        type: 'POST',
-        data: { action: 'clearSession' },
-        success: function(response) {
-            // Обработка успешного завершения. Например, обновление UI
-            Toastify({
-                text: "отчистка успешна",
-                duration: 2000,
-                style:{
-                    background: "green"
-                }
-            }).showToast();
-            clearSavedState();
-            clearSavedState();
-            location.reload();
-
-
-        },
-        error: function(xhr, status, error) {
-            // Обработка ошибок
-            alert('Произошла ошибка при очистке сессии');
-        }
-    });
-}

@@ -3,16 +3,28 @@
 }
 #header {
     text-align: center;
-    display: flex;
-    justify-content: center;
     font-family: "monospace";
     font-size: 20px;
     color: #ffffff;
     background-color: #32343d;
     height: 70px;
     line-height: 70px;
-    position: relative;
+}
+.headCols {
+    display: grid;
+    grid-template-columns: 30% 50%;
+    grid-gap: 1%;
 }
 
+
+.headCol1 {
+    text-align: left;
+    float: left;
+}
+
+.headCol2 {
+    text-align: center;
+    float: right;
+}
 
 

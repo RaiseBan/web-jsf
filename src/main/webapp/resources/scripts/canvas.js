@@ -1,6 +1,5 @@
 canvas = document.getElementById("canvas");
 ctx = canvas.getContext("2d");
-loadStateFromLocalStorage();
 //
 ctx.clearRect(0, 0, 1000, 1000);
 //
@@ -35,9 +34,10 @@ function drawPoint(flag){
     }
     else{
 
-        // draw();
-        if (flag === "In"){
+        console.log("RESULT: ", flag);
+        if (flag.trim() === "In"){
             ctx.fillStyle = "green";
+            console.log("green dot");
         }else{
             ctx.fillStyle = "red";
         }
@@ -49,10 +49,44 @@ function drawPoint(flag){
         ctx.closePath();
         console.log(canvas.width, canvas.height);
         ctx.fill();
-        saveStateToLocalStorage();
+        // saveStateToLocalStorage();
 
     }
 }
+
+
+function drawPointWithCords(flag, x, y, r){
+    if ( Math.abs(x) > r || Math.abs(x) > r){
+
+    }
+    else{
+
+        console.log("RESULT: ", flag);
+        if (flag.trim() === "In"){
+            ctx.fillStyle = "green";
+            console.log("green dot");
+        }else{
+            ctx.fillStyle = "red";
+        }
+
+        ctx.beginPath();
+        // ctx.moveTo(widthCenter, heightCenter);
+        console.log("то что рисуем" + userInputX, userInputY, userInputR);
+        ctx.arc(widthCenter + 100 * parseFloat(x) / parseFloat(r), heightCenter - 100 * parseFloat(y) / parseFloat(r), 3, 0, 2 * Math.PI);
+        ctx.closePath();
+        console.log(canvas.width, canvas.height);
+        ctx.fill();
+
+    }
+}
+
+function clearCanvas(){
+    ctx.clearRect(0, 0, 1000, 1000);
+    draw();
+}
+
+
+
 function draw() {
 
     ctx.clearRect(0, 0, 1000, 1000);
@@ -62,13 +96,13 @@ function draw() {
     ctx.fillRect(widthCenter, heightCenter, -100, 100);
 
     ctx.moveTo(widthCenter, heightCenter);
-    ctx.arc(widthCenter, heightCenter, 50, Math.PI,  -Math.PI/2);
+    ctx.arc(widthCenter, heightCenter, 100, 0, Math.PI/2);
     ctx.fill(); // заливаем фигуру
 // треугольник
     ctx.beginPath();
     ctx.moveTo(widthCenter, heightCenter); // первая точка
-    ctx.lineTo(widthCenter, heightCenter - 50); // вторая точка
-    ctx.lineTo(widthCenter + 100, heightCenter); // третья точка
+    ctx.lineTo(widthCenter, heightCenter - 100); // вторая точка
+    ctx.lineTo(widthCenter + 50, heightCenter); // третья точка
     ctx.fill();
 
 
@@ -146,28 +180,5 @@ function draw() {
 
 }
 
-function saveStateToLocalStorage() {
-    let canvasData = canvas.toDataURL(); // получаем данные из canvas в виде строки
-    localStorage.setItem('canvasState', canvasData);
-}
-
-function loadStateFromLocalStorage() {
-    let savedCanvasData = localStorage.getItem('canvasState');
-    if (savedCanvasData) {
-        let img = new Image;
-        img.src = savedCanvasData;
-        img.onload = function() {
-            ctx.drawImage(img, 0, 0); // Отрисовка сохраненного состояния на холст
-        };
-    }
-}
-
-function clearSavedState() {
-    localStorage.removeItem('canvasState');
-}
-function clearCanvasAndStorage() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    clearSavedState();
-}
 
 

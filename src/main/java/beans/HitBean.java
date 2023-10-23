@@ -4,6 +4,7 @@ import back.CheckArea;
 import back.Validation;
 import entity.Shots;
 
+import javax.crypto.spec.PSource;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -16,8 +17,12 @@ public class HitBean implements Serializable {
     private Boolean currentCheckedValue = false;
     private String x;
     private String y;
+//    private Shots lastShot;
 
     private String r = "2";
+    private String tempX;
+    private String tempY;
+    private String tempR;
     private final Validation validation;
     private final CheckArea checkArea;
 
@@ -33,7 +38,46 @@ public class HitBean implements Serializable {
             checkboxValues.put(value, false);
         }
     }
+    public void combinedMethod() {
+        System.out.println("ЕЖИ с кайфом");
+        String tempingX = this.x;
+        String tempingY = this.y;
+        String tempingR = this.r;
+        setX(getTempX());
+        setY(getTempY());
+        this.r = getTempR();
+        System.out.println(this.x);
+        System.out.println(this.y);
+        System.out.println(this.r);
+        submit();
+        this.x = tempingX;
+        this.y = tempingY;
+        this.r = tempingR;
+    }
 
+    public String getTempX() {
+        return tempX;
+    }
+
+    public void setTempX(String tempX) {
+        this.tempX = tempX;
+    }
+
+    public String getTempY() {
+        return tempY;
+    }
+
+    public void setTempY(String tempY) {
+        this.tempY = tempY;
+    }
+
+    public String getTempR() {
+        return tempR;
+    }
+
+    public void setTempR(String tempR) {
+        this.tempR = tempR;
+    }
 
     public void submitClick() {
 
@@ -51,8 +95,21 @@ public class HitBean implements Serializable {
             shot.setY(numericalY.floatValue());
             shot.setR(numericalR.floatValue());
             shot.setResult(checkArea.hit(numericalX, numericalY, numericalR));
+
             dataAO.addShot(shot);
         }
+    }
+    public void submit(){
+
+        double numericalX = Double.parseDouble(x);
+        double numericalY = Double.parseDouble(y);
+        double numericalR = Double.parseDouble(r);
+        Shots shot = new Shots();
+        shot.setX((float) numericalX);
+        shot.setY((float) numericalY);
+        shot.setR((float) numericalR);
+        shot.setResult(checkArea.hit(numericalX, numericalY, numericalR));
+        dataAO.addShot(shot);
     }
 
 
@@ -70,6 +127,14 @@ public class HitBean implements Serializable {
         this.currentCheckedValue = currentCheckedValue;
     }
 
+    public List<Shots> getHistory() {
+        List<Shots> sL = dataAO.getAll();
+        Collections.reverse(sL);
+        return sL;
+    }
+    public void resetHistory() {
+        dataAO.clear();
+    }
 
 
     public void updateX(double value) {

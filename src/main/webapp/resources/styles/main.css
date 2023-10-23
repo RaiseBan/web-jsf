@@ -1,6 +1,6 @@
 @import "header.css";
-body{
-    background-image: url("../img/background-image.jpg");
+.body{
+    background-image: url("#{resource['img/5161440.jpg']}");
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -25,14 +25,13 @@ canvas {
 }
 
 .sendForm{
-    text-align: center;
+    text-align: left;
     padding: 20px;
-    margin: 0 20%;
+    margin: 0 5%;
 }
 
 .params-container{
-    display: flex;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 3vh;
 }
 
@@ -41,17 +40,36 @@ canvas {
     font-size: 1.2em;
     white-space: nowrap;
 }
+#choose-x{
 
-#choose-x button{
-    padding: 8px 15px;
-    margin: 4px 1.5px 0 0;
-    border: none;
-    box-shadow: 0px 0px 5px black;
-    border-radius: 8px;
-    background: rgba(82,97,100,0.64);
-    color: white;
-    cursor: pointer;
+    display: grid;
+    justify-content: start; /* Выравнивание сетки по началу оси X */
+    grid-template-rows: 1fr; /* одна строка */
+    grid-template-columns: 1fr 1fr; /* два столбца */
+}#choose-y{
+     display: grid;
+     justify-content: start; /* Выравнивание сетки по началу оси X */
+     grid-template-rows: 1fr; /* одна строка */
+     grid-template-columns: 1fr 1fr; /* два столбца */
+ }
+#choose-r{
+    display: grid;
+    justify-content: start; /* Выравнивание сетки по началу оси X */
+    grid-template-rows: 1fr; /* одна строка */
+    grid-template-columns: 1fr 1fr; /* два столбца */
 }
+
+
+/*#choose-x button{*/
+/*    padding: 8px 15px;*/
+/*    margin: 4px 1.5px 0 0;*/
+/*    border: none;*/
+/*    box-shadow: 0px 0px 5px black;*/
+/*    border-radius: 8px;*/
+/*    background: rgba(82,97,100,0.64);*/
+/*    color: white;*/
+/*    cursor: pointer;*/
+/*}*/
 
 #choose-x button.active{
     background-color: #32343d;
@@ -61,17 +79,18 @@ input:focus {
     box-shadow: 0 0 10px black;
 }
 
-select {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background: rgba(82,97,100,0.64);
-    color: white;
-    cursor: pointer;
-}
+/*select {*/
+/*    padding: 10px;*/
+/*    border: 1px solid #ccc;*/
+/*    border-radius: 5px;*/
+/*    background: rgba(82,97,100,0.64);*/
+/*    color: white;*/
+/*    cursor: pointer;*/
+/*}*/
 
-#sendButton{
+.sendButton{
     background-color: rgba(82,97,100,0.64);
+    width: 10%;
     color: white;
     padding: 10px 20px;
     border: 1px solid white;
@@ -79,9 +98,11 @@ select {
     font-size: 16px;
     transition: background-color 0.3s ease, color 0.3s ease;
     cursor: pointer;
+    margin-bottom: 5px;
 }
-#clear-button{
+.clear-button{
     background-color: #ff3a33;
+    width: 10%;
     color: white;
     padding: 10px 20px;
     border: 1px solid white;
@@ -89,19 +110,29 @@ select {
     font-size: 16px;
     transition: background-color 0.3s ease, color 0.3s ease;
     cursor: pointer;
-    margin-left: 5px;
 }
-#clear-button:hover{
+.clear-button:hover{
     background-color: #ff7348;
     color: #eee;
 
 }
-#sendButton:hover{
+.sendButton:hover{
     background-color: #32343d;
     color: #eee;
 }
-
+.hidden {
+    display: none !important;
+    visibility: hidden !important;
+}
 input {
+    background: rgba(82,97,100,0.64);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    color: white;
+}
+body .ui-inputfield {
     background: rgba(82,97,100,0.64);
     padding: 10px;
     border: 1px solid #ccc;
@@ -133,4 +164,10 @@ label::before{
 td{
     border: #32343d 1.5px solid;
 }
+
+#click{
+    display: grid;
+    grid-template-rows: repeat(5, 1fr);
+}
+
 
