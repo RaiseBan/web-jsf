@@ -1,0 +1,48 @@
+#header {
+    text-align: center;
+    letter-spacing: 1px;
+    padding: 1em 5%;
+    background: #2c3e50;
+    color: #fff;
+}
+
+#time, .nextPageButton {
+    width: 60%;
+    color: #2c3e50;
+    margin-left: 20%;
+    margin-right: 20%;
+    font-family: 'Arial', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 15px 30px;
+    border-radius: 10px;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+#time {
+    background: linear-gradient(135deg, #83a4d4, #b6fbff);
+}
+
+#time:hover {
+    background: linear-gradient(135deg, #b6fbff, #83a4d4);
+    cursor: pointer;
+}
+
+.nextPageButton {
+    /*text-decoration: none;*/
+    border: 2px solid;
+    border-top-color: #FDBE33;
+    border-bottom-color: #D77206;
+    background: linear-gradient(#225d88, #80e316) #770a30;
+    transition: 0.2s;
+}
+
+.nextPageButton:hover {
+    background: linear-gradient(#6b68ff, #4bffbc) #1b648a;
+    cursor: pointer;
+}
+
+.nextPageButton:active {
+    background: linear-gradient(#61b3ff, #082524) #174d9d;
+}

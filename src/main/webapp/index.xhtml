@@ -11,11 +11,12 @@
     <h:outputScript library="scripts" name="time.js"/>
     <h:outputStylesheet library="styles" name="main.css"/>
     <h:outputStylesheet library="styles" name="header.css"/>
+    <h:outputStylesheet library="styles" name="start.css"/>
     <h:outputScript library="javax.faces" name="jsf.js"/>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"></link>
 </h:head>
 <f:view>
-    <h:body>
+    <h:body class="body">
         <div id="header">
             <div>
                 <span>
@@ -29,7 +30,7 @@
         </div>
 
         <h:form id="form">
-            <h:commandButton id="nextPageButton" action="MainPage"/>
+            <h:commandButton styleClass="nextPageButton" action="MainPage" value="Main Page"/>
         </h:form>
 
 
